@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class PlayingFilmCard extends StatelessWidget {
   final String backdropPath;
   final double voteAverage;
   final String title;
+  final String originalTitle;
   final String overview;
 
   const PlayingFilmCard({
@@ -12,34 +12,104 @@ class PlayingFilmCard extends StatelessWidget {
     required this.backdropPath,
     required this.voteAverage,
     required this.title,
+    required this.originalTitle,
     required this.overview,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Image.network('https://image.tmdb.org/t/p/original$backdropPath'),
-      Container(
-        color: Colors.pink,
-        child: Text(
-          '평점:$voteAverage',
-        ),
+    return SizedBox(
+      height: 400,
+      child: Stack(
+        children: [
+          SizedBox(
+            height: 400,
+            child: Stack(
+              children: [
+                Stack(
+                  children: [
+                    Image.network(
+                      'https://image.tmdb.org/t/p/original$backdropPath',
+                      height: 400,
+                      fit: BoxFit.fitHeight,
+                    ),
+                    Container(
+                      height: 400,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: FractionalOffset.topCenter,
+                            end: FractionalOffset.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black,
+                            ]),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 60,
+                  right: 20,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                      color: Colors.pink,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    child: Text(
+                      '평점: $voteAverage',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            child: Container(
+              width: 400,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    originalTitle,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    overview,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-      Text(
-        title,
-        style: const TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-        ),
-      ),
-      Text(
-        overview,
-        style: const TextStyle(
-          fontSize: 15,
-          color: Colors.white,
-        ),
-      ),
-    ]);
+    );
   }
 }
