@@ -8,27 +8,23 @@ class MovieService {
   final _dio = Dio();
 
   Future<List<PlayingFilmModel>> getPlayingFilms() async {
-    try {
-      final response = await _dio.get(
-        'https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $_token',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        List<dynamic> fromData = response.data['results'] as List<dynamic>;
-        List<PlayingFilmModel> data = fromData
-            .map((e) => PlayingFilmModel.fromJson(e as Map<String, dynamic>))
-            .toList();
-        return data;
-      } else {
-        return [];
-      }
-    } catch (error) {
-      debugPrint(error.toString());
+    final response = await _dio.get(
+      'https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR',
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $_token',
+          'Accept': 'application/json',
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      debugPrint('API 정상 작동');
+      List<dynamic> fromData = response.data['results'] as List<dynamic>;
+      List<PlayingFilmModel> data = fromData
+          .map((e) => PlayingFilmModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      return data;
+    } else {
       return [];
     }
   }
