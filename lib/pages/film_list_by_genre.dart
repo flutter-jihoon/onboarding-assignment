@@ -11,19 +11,24 @@ class FilmListByGenre extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      appBar: AppBar(
-        title: Text(
-          name,
-          style: const TextStyle(
+        backgroundColor: Colors.grey[850],
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text(
+            name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: Colors.grey[850],
+          iconTheme: const IconThemeData(
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.black87,
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
-      ),
-    );
+        body: GridView(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3),
+            children: const []));
   }
 }
