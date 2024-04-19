@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onboarding_assignment/widgets/poster.dart';
 
 class GenreFilmList extends StatelessWidget {
   final int id;
@@ -13,12 +14,12 @@ class GenreFilmList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 300,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [
           SizedBox(
-            height: 80,
+            height: 30,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -42,8 +43,49 @@ class GenreFilmList extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20,
-            child: ListView(),
+            height: 250,
+            child: ListView(scrollDirection: Axis.horizontal, children: const [
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'asdf'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+              Poster(
+                  posterPath:
+                      'https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg',
+                  title: 'ghjk'),
+            ]),
           ),
         ],
       ),
