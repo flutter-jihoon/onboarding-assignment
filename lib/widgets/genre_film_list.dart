@@ -16,11 +16,11 @@ class GenreFilmList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Column(
         children: [
           SizedBox(
-            height: 30,
+            height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -28,7 +28,7 @@ class GenreFilmList extends StatelessWidget {
                   name,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 16,
                   ),
                 ),
                 GestureDetector(
@@ -39,7 +39,7 @@ class GenreFilmList extends StatelessWidget {
                     '전체보기 >',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 17,
+                      fontSize: 14,
                     ),
                   ),
                 ),

@@ -29,7 +29,7 @@ class MyApp extends ConsumerWidget {
         shrinkWrap: true,
         children: [
           SizedBox(
-            height: 500,
+            height: 480,
             child: playingFilm.when(
               data: (films) {
                 return PageView.builder(

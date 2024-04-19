@@ -71,7 +71,7 @@ class PlayingFilmCard extends StatelessWidget {
           bottom: 0,
           child: Container(
             width: 400,
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.only(left: 10, right: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -79,7 +79,7 @@ class PlayingFilmCard extends StatelessWidget {
                   title,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
-                    fontSize: 26,
+                    fontSize: 24,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
@@ -88,8 +88,7 @@ class PlayingFilmCard extends StatelessWidget {
                   originalTitle,
                   textAlign: TextAlign.left,
                   style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
                     color: Colors.white,
                   ),
                 ),
@@ -99,7 +98,7 @@ class PlayingFilmCard extends StatelessWidget {
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 17,
+                    fontSize: 15,
                     color: Colors.white,
                   ),
                 ),
