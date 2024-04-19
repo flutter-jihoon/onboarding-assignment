@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onboarding_assignment/models/film_genre.dart';
 import 'package:onboarding_assignment/models/film_poster.dart';
 import 'package:onboarding_assignment/models/film.dart';
@@ -68,3 +69,5 @@ class MovieService {
     return [];
   }
 }
+
+final movieServiceProvider = Provider<MovieService>((ref) => MovieService());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onboarding_assignment/pages/film_list_by_genre.dart';
 import 'package:onboarding_assignment/widgets/poster.dart';
 
 class GenreFilmList extends StatelessWidget {
@@ -31,6 +32,9 @@ class GenreFilmList extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => FilmListByGenre(name: name),
+                  )),
                   child: const Text(
                     '전체보기 >',
                     style: TextStyle(
