@@ -1,13 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:onboarding_assignment/models/film.dart';
 import 'package:onboarding_assignment/models/film_genre.dart';
-import 'package:onboarding_assignment/services/movie_service.dart';
+import 'package:onboarding_assignment/repositories/film_repository.dart';
 
-final playingFilmProvider = FutureProvider<List<Film>>((ref) async {
+final currentMoviesProvider = FutureProvider<List<Film>>((ref) async {
   return ref.watch(movieServiceProvider).getPlayingFilms();
 });
 
-final filmGenreProvider = FutureProvider<List<FilmGenre>>((ref) async {
-  final MovieService movieService = MovieService();
-  return movieService.getFilmGenres();
+final movieGenresProvider = FutureProvider<List<FilmGenre>>((ref) async {
+  return ref.watch(movieServiceProvider).getFilmGenres();
 });
+
+final genreMovieProvider = FutureProvider<List<FilmPoster>>((ref) async {
+  final MovieRepository movieRepository = MovieRepository();
+  movieRepository.getGenreFilms(genreId: genreId, page: page)
+})
+
+final pageIndexProvider = StateProvider<int>((ref) => 0);

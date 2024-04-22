@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onboarding_assignment/providers/provider.dart';
-import 'package:onboarding_assignment/widgets/genre_film_list.dart';
-import 'package:onboarding_assignment/widgets/playing_film_card.dart';
+import 'package:onboarding_assignment/widgets/genre_movie_list.dart';
+import 'package:onboarding_assignment/widgets/current_movie_card.dart';
 
 void main() {
   runApp(
@@ -14,34 +14,73 @@ void main() {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final AsyncValue playingFilm = ref.watch(playingFilmProvider);
-    final AsyncValue filmGenre = ref.watch(filmGenreProvider);
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  late final PageController _currentMoviesPageViewController;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentMoviesPageViewController =
+        PageController(initialPage: ref.read(pageIndexProvider));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 현재 상영 중인 영화 리스트 Provider
+    final AsyncValue currentMovies = ref.watch(currentMoviesProvider);
+
+    // 영화 장르 리스트 Provider
+    final AsyncValue movieGenres = ref.watch(movieGenresProvider);
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: ListView(
-        padding: const EdgeInsets.only(top: 0),
-        shrinkWrap: true,
-        children: [
-          SizedBox(
-            height: 480,
-            child: playingFilm.when(
-              data: (films) {
-                return PageView.builder(
-                  itemCount: films.length,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 480,
+              child: currentMovies.when(
+                data: (movies) {
+                  return PageView.builder(
+                    controller: _currentMoviesPageViewController,
+                    // 페이지가 변경될 때마다 상태를 업데이트합니다.
+                    onPageChanged: (index) {
+                      ref.read(pageIndexProvider.notifier).state = index;
+                    },
+                    itemCount: movies.length,
+                    itemBuilder: (context, index) {
+                      return CurrentMovieCard(
+                        backdropPath: movies[index].backdropPath,
+                        voteAverage: movies[index].voteAverage,
+                        title: movies[index].title,
+                        originalTitle: movies[index].originalTitle,
+                        overview: movies[index].overview,
+                      );
+                    },
+                  );
+                },
+                // TODO: 에러 시 더 친절한 설명
+                error: (err, stack) => Text(err.toString()),
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+            movieGenres.when(
+              data: (genres) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: genres.length,
                   itemBuilder: (context, index) {
-                    return PlayingFilmCard(
-                      backdropPath: films[index].backdropPath,
-                      voteAverage: films[index].voteAverage,
-                      title: films[index].title,
-                      originalTitle: films[index].originalTitle,
-                      overview: films[index].overview,
-                    );
+                    return GenreMovieList(genre: genres[index]);
                   },
                 );
               },
@@ -49,28 +88,9 @@ class MyApp extends ConsumerWidget {
               loading: () => const Center(
                 child: CircularProgressIndicator(),
               ),
-            ),
-          ),
-          filmGenre.when(
-            data: (genre) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: genre.length,
-                itemBuilder: (context, index) {
-                  return GenreFilmList(
-                    id: genre[index].id,
-                    name: genre[index].name,
-                  );
-                },
-              );
-            },
-            error: (err, stack) => Text(err.toString()),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

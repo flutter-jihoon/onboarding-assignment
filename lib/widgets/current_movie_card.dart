@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class PlayingFilmCard extends StatelessWidget {
+class CurrentMovieCard extends StatelessWidget {
   final String backdropPath;
   final double voteAverage;
   final String title;
   final String originalTitle;
   final String overview;
 
-  const PlayingFilmCard({
+  const CurrentMovieCard({
     super.key,
     required this.backdropPath,
     required this.voteAverage,
@@ -20,51 +20,40 @@ class PlayingFilmCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
+        Image.network(
+          'https://image.tmdb.org/t/p/w500$backdropPath',
           height: 400,
-          child: Stack(
-            children: [
-              Stack(
-                children: [
-                  Image.network(
-                    'https://image.tmdb.org/t/p/original$backdropPath',
-                    height: 400,
-                    fit: BoxFit.fitHeight,
-                  ),
-                  Container(
-                    height: 400,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: FractionalOffset.topCenter,
-                        end: FractionalOffset.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black,
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+          fit: BoxFit.fitHeight,
+        ),
+        Container(
+          height: 400,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: FractionalOffset.topCenter,
+              end: FractionalOffset.bottomCenter,
+              colors: [
+                Colors.transparent,
+                Colors.black,
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 60,
+          right: 20,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              color: Colors.pink,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+            child: Text(
+              '평점: $voteAverage',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.white,
               ),
-              Positioned(
-                top: 60,
-                right: 20,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    color: Colors.pink,
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                  ),
-                  child: Text(
-                    '평점: $voteAverage',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
         Positioned(

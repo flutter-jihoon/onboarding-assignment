@@ -4,11 +4,19 @@ import 'package:onboarding_assignment/models/film_genre.dart';
 import 'package:onboarding_assignment/models/film_poster.dart';
 import 'package:onboarding_assignment/models/film.dart';
 
-class MovieService {
+abstract class MovieServiceInterface {
+  Future<List<Film>> getPlayingFilms();
+  Future<List<FilmGenre>> getFilmGenres();
+  Future<List<FilmPoster>> getGenreFilms(
+      {required int genreId, required int page});
+}
+
+class MovieRepository implements MovieServiceInterface {
   final _token =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzJjYjNkMDZlMGM5OWIzZDk1ZTczMzlmYjMzYWNlMSIsInN1YiI6IjY2MWUxY2EyM2M0MzQ0MDE3YzAyYjI1YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JFiC1Wj06PJix4z45ylDe-KIXt4kJG1ejJlqa6DemXg';
   final _dio = Dio();
 
+  @override
   Future<List<Film>> getPlayingFilms() async {
     final response = await _dio.get(
       'https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1&region=KR',
@@ -29,7 +37,9 @@ class MovieService {
     return [];
   }
 
-  Future<List<FilmGenre>> getFilmGenres() async {
+  @override
+  Future<List<FilmGenre>> getMovieGenres(
+      {required int genreId, required int page}) async {
     final response = await _dio.get(
       'https://api.themoviedb.org/3/genre/movie/list?language=ko',
       options: Options(
@@ -49,9 +59,11 @@ class MovieService {
     return [];
   }
 
-  Future<List<FilmPoster>> getGenreFilms() async {
+  @override
+  Future<List<FilmPoster>> getGenreFilms(
+      {required int genreId, required int page}) async {
     final response = await _dio.get(
-      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=1&region=KR&sort_by=popularity.desc&with_genres=',
+      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=$page&region=KR&sort_by=popularity.desc&with_genres=$genreId',
       options: Options(
         headers: {
           'Authorization': 'Bearer $_token',
@@ -60,7 +72,7 @@ class MovieService {
       ),
     );
     if (response.statusCode == 200) {
-      List<dynamic> fromData = response.data['genres'] as List<dynamic>;
+      List<dynamic> fromData = response.data['results'] as List<dynamic>;
       List<FilmPoster> data = fromData
           .map((e) => FilmPoster.fromJson(e as Map<String, dynamic>))
           .toList();
@@ -68,6 +80,13 @@ class MovieService {
     }
     return [];
   }
+
+  @override
+  Future<List<FilmGenre>> getFilmGenres() {
+    // TODO: implement getFilmGenres
+    throw UnimplementedError();
+  }
 }
 
-final movieServiceProvider = Provider<MovieService>((ref) => MovieService());
+final movieServiceProvider =
+    Provider<MovieServiceInterface>((ref) => MovieRepository());

@@ -13,13 +13,13 @@ class Poster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.network(
-            posterPath,
-            height: 200,
+            'https://image.tmdb.org/t/p/original$posterPath',
+            height: 180,
             fit: BoxFit.fitHeight,
           ),
           Padding(
@@ -27,7 +27,7 @@ class Poster extends StatelessWidget {
             child: Text(
               title,
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 14,
                 color: Colors.white,
               ),
             ),
