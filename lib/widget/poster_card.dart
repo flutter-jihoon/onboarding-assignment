@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Poster extends StatelessWidget {
+class PosterCard extends StatelessWidget {
   final String posterPath;
   final String title;
 
-  const Poster({
+  const PosterCard({
     super.key,
     required this.posterPath,
     required this.title,
@@ -30,6 +30,8 @@ class Poster extends StatelessWidget {
                 fontSize: 14,
                 color: Colors.white,
               ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:onboarding_assignment/models/film_genre.dart';
-import 'package:onboarding_assignment/models/film_poster.dart';
-import 'package:onboarding_assignment/pages/film_list_by_genre.dart';
-import 'package:onboarding_assignment/providers/provider.dart';
-import 'package:onboarding_assignment/widgets/poster.dart';
+import 'package:onboarding_assignment/model/movie_genre.dart';
+import 'package:onboarding_assignment/movie_list_by_genre.dart';
+import 'package:onboarding_assignment/provider/state/genre_movie_provider.dart';
+import 'package:onboarding_assignment/widget/poster_card.dart';
 
-class GenreMovieList extends ConsumerWidget {
-  final FilmGenre genre;
+class GenreMovieList extends ConsumerStatefulWidget {
+  final MovieGenre genre;
 
   const GenreMovieList({
     super.key,
@@ -15,7 +14,15 @@ class GenreMovieList extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GenreMovieList> createState() => _GenreMovieListState();
+}
+
+class _GenreMovieListState extends ConsumerState<GenreMovieList> {
+  @override
+  Widget build(BuildContext context) {
+    final genreMovies = ref.watch(genreMovieProvider(widget.genre.id));
+    ref.read(genreMovieProvider(widget.genre.id).notifier).fetchGenreMovies();
+
     return Container(
       height: 300,
       padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -27,7 +34,7 @@ class GenreMovieList extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  genre.name,
+                  widget.genre.name,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -35,7 +42,7 @@ class GenreMovieList extends ConsumerWidget {
                 ),
                 GestureDetector(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => FilmListByGenre(genre: genre),
+                    builder: (context) => FilmListByGenre(genre: widget.genre),
                   )),
                   child: const Text(
                     '전체보기 >',
@@ -52,22 +59,12 @@ class GenreMovieList extends ConsumerWidget {
             height: 250,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
+              itemCount: genreMovies.length,
               itemBuilder: (context, index) {
-                final AsyncValue<List<FilmPoster>> filmPosters =
-                    ref.watch(genreMovieProvider(genreId: genre.id, page: 1));
-                return filmPosters.when(
-                  error: (err, stack) => Text(err.toString()),
-                  loading: () => const Text('Loading...'),
-                  data: (posters) {
-                    if (index >= posters.length) {
-                      return null;
-                    }
-                    final poster = posters[index];
-                    return Poster(
-                      posterPath: poster.posterPath,
-                      title: poster.title,
-                    );
-                  },
+                final genreMovie = genreMovies[index];
+                return PosterCard(
+                  posterPath: genreMovie.posterPath,
+                  title: genreMovie.title,
                 );
               },
             ),

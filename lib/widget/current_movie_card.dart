@@ -21,7 +21,7 @@ class CurrentMovieCard extends StatelessWidget {
     return Stack(
       children: [
         Image.network(
-          'https://image.tmdb.org/t/p/w500$backdropPath',
+          'https://image.tmdb.org/t/p/original$backdropPath',
           height: 400,
           fit: BoxFit.fitHeight,
         ),
