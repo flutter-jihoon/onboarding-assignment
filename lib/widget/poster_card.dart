@@ -13,14 +13,13 @@ class PosterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      width: 120,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.network(
-            'https://image.tmdb.org/t/p/original$posterPath',
-            height: 180,
-            fit: BoxFit.fitHeight,
+            'https://image.tmdb.org/t/p/w500$posterPath',
+            fit: BoxFit.fitWidth,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),

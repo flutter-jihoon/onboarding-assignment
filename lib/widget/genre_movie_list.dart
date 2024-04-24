@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onboarding_assignment/model/movie_genre.dart';
-import 'package:onboarding_assignment/movie_list_by_genre.dart';
+import 'package:onboarding_assignment/all_genre_movie_list.dart';
 import 'package:onboarding_assignment/provider/state/genre_movie_provider.dart';
 import 'package:onboarding_assignment/widget/poster_card.dart';
 
@@ -19,17 +19,21 @@ class GenreMovieList extends ConsumerStatefulWidget {
 
 class _GenreMovieListState extends ConsumerState<GenreMovieList> {
   @override
+  void initState() {
+    super.initState();
+    ref.read(genreMovieProvider(widget.genre.id).notifier).fetchGenreMovies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final genreMovies = ref.watch(genreMovieProvider(widget.genre.id));
-    ref.read(genreMovieProvider(widget.genre.id).notifier).fetchGenreMovies();
-
     return Container(
       height: 300,
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Column(
         children: [
           SizedBox(
-            height: 50,
+            height: 40,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -23,7 +23,6 @@ void main() async {
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
-
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
 }
@@ -36,6 +35,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
     _controller.addListener(_updatePage);
+    ref.read(genreProvider.notifier).fetchMovieGenres();
+    ref.read(playingMovieProvider.notifier).fetchPlayingMovies();
   }
 
   @override
@@ -75,10 +76,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     final playingMovies = ref.watch(playingMovieProvider);
-    ref.read(playingMovieProvider.notifier).fetchPlayingMovies();
-
     final movieGenres = ref.watch(genreProvider);
-    ref.read(genreProvider.notifier).fetchMovieGenres();
 
     return Scaffold(
       backgroundColor: Colors.black,
